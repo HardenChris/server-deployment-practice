@@ -3,7 +3,9 @@
 const express = require('express');
 // express() -> singleton pattern that makes one app. Returns an object that can be modified.
 const app = express();
-app.get(); //this method/unc. modifies our app singleton.
+
+
+//app.get(); //this method/unc. modifies our app singleton.
 
 //2 things 
 // route - string 
@@ -25,34 +27,43 @@ app.get('/message', (req, res) => {
   //create a message and send it back
   console.log('Someone sent a request!: + req.method');
 
-  res.send('Here is a message');
+  res.send(messages);
 });
 
 function createMessage(req, res, next) {
   const messageText = req.query.text;
   const authorName = req.query.author;
 
-  const message = new Message(messageText, authorName);
+  console.log('First message is created!');
+
+  if(!messageText || !authorName) {
+    next('no Text or author');
+  } else {
+    const message = new Message(messageText, authorName);
+  }
+
+  //we modify,
   req.message = message;
   next();
 }
 
 function saveMessage(req, res, next) {
+  console.log('We can see any data that was added to the request', req.message);
   let message = req.message;
-  message.push(message);
+  messages.push(message);
   next();
 }
 
 //POST -> http:/:localhost:3000/message?text=SomeString&author=Jacob
-app.post('/message', (req, res, next) => {
-  const messageText = req.query.text;
-  const authorName = req.query.author;
+app.post('/message', createMessage, saveMessage, (req, res, next) => {
+//   const messageText = req.query.text;
+//   const authorName = req.query.author;
 
-  next('an error has occured');
+  //   next('an error has occured');
 
-  const message = new Message(messageText, authorName);//creates message
-  messages.push(message);
-  res.send(message);
+  //   const message = new Message(messageText, authorName);//creates message
+  //   messages.push(message);
+  res.send(messages);
 });
 
 app.use(function (err, req, res, next) {
