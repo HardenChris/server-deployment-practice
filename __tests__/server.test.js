@@ -1,15 +1,15 @@
 'use strict';
 
-const server = require('../app');
+const server = require('../app.js');
 const supertest = require('supertest');
-const req = supertest(server.app);
+const request = supertest(server.app);
 
 describe('Testing my HTTP server', () => {
 
-  It('Should be able to response to a POST to /message', async () => {
-    let res = await req.post('/message?text=test&author=test');
+  it('Should be able to response to a POST to /message', async () => {
+    let response = await request.post('/message?text=test&author=test');
 
-    expect(res.status).toEqual(200);
-    expect(res.body[0].text).toEqual('test');
+    expect(response.status).toEqual(200);
+    expect(response.body[0].text).toEqual('test');
   });
 });

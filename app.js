@@ -23,11 +23,11 @@ class Message {
 
 
 
-app.get('/message', (req, res) => {
+app.get('/message', (request, response) => {
   //create a message and send it back
-  console.log('Someone sent a request!: + req.method');
+  console.log('Someone sent a request!: ' + request.method);
 
-  res.send(messages);
+  response.send(messages);
 });
 
 function createMessage(req, res, next) {
@@ -40,11 +40,12 @@ function createMessage(req, res, next) {
     next('no Text or author');
   } else {
     const message = new Message(messageText, authorName);
-  }
+  
 
-  //we modify,
-  req.message = message;
-  next();
+    //we modify,
+    req.message = message;
+    next();
+  }
 }
 
 function saveMessage(req, res, next) {
@@ -55,7 +56,7 @@ function saveMessage(req, res, next) {
 }
 
 //POST -> http:/:localhost:3000/message?text=SomeString&author=Jacob
-app.post('/message', createMessage, saveMessage, (req, res, next) => {
+app.post('/message', createMessage, saveMessage, (request, response, next) => {
 //   const messageText = req.query.text;
 //   const authorName = req.query.author;
 
@@ -63,16 +64,16 @@ app.post('/message', createMessage, saveMessage, (req, res, next) => {
 
   //   const message = new Message(messageText, authorName);//creates message
   //   messages.push(message);
-  res.send(messages);
+  response.send(messages);
 });
 
-app.use(function (err, req, res, next) {
+app.use(function (err, request, response, next) {
   console.log(err);
-  res.send('Error handler hit!');
+  response.send('Error handler hit!');
 });
 
-app.use(function (req, res) {
-  res.status(404).send('***** Nothing found *****');
+app.use(function (request, response) {
+  response.status(404).send('***** Nothing found *****');
 });
 
 // module.exports = app;

@@ -4,7 +4,7 @@
   "description": "HTTP Express Server Deployed on Heroku",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose --coverage",
     "start": "node index.js"
   },
   "repository": {
