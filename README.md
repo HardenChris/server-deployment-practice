@@ -3,6 +3,8 @@
 HTTP Express Server Deployed on Heroku
 
 Deployed URL: https://hardenchris-server-deploy-prod.herokuapp.com/
+
+[img](./assets/images/UML.png)
 ## Installation
 
 to install run `git clone git@github.com:HardenChris/server-deployment-practice.git`
